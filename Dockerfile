@@ -10,4 +10,4 @@ RUN go get "github.com/cskr/pubsub"
 RUN go get "github.com/eclipse/paho.mqtt.golang"
 RUN go build *.go
 
-CMD /hacmd/hacmd
+CMD /hacmd/hacmd /hacmd/config.json

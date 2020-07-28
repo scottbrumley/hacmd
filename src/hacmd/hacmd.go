@@ -144,7 +144,7 @@ func (cmdProc hacmd) APICommand(procID string, hubID string, command string) {
 
 func (cmdProc hacmd) LutronCommand(command string) {
 	params := strings.Split(command, "/")
-	lutronHub := lutron.NewLutron(params[2], "inventory.txt")
+	lutronHub := lutron.NewLutron(params[2], "/hacmd/inventory.txt")
 	myCmd := &lutron.LutronMsg{}
 	myCmd.Id, _ = strconv.Atoi(params[4])
 	myCmd.Name = params[5]
