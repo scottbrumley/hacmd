@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"hacmd"
 	"os"
@@ -26,19 +27,22 @@ func main() {
 	for {
 		select {
 		case msgStr := <-commandCenter.CmdMessages:
-			procIDCalled, action, actiontype, commands := commandCenter.ReadCommands(msgStr)
-			if (procIDCalled == commandCenter.ProcID) && (actiontype == "config") {
-				fmt.Println("Reading Configuration")
-				commandCenter.Configured = true
-			}
-			if commandCenter.Configured && procIDCalled == commandCenter.ProcID {
-				for _, command := range commands {
-					// Send Commands to API
-					if action == "api" {
-						go commandCenter.APICommand(commandCenter.ProcID, command.Hubid, command.URL)
-					}
-					if action == "lutron" {
-						go commandCenter.LutronCommand(command.URL)
+			if json.Valid([]byte(msgStr)) {
+				procIDCalled, action, actiontype, commands := commandCenter.ReadCommands(msgStr)
+
+				if (procIDCalled == commandCenter.ProcID) && (actiontype == "config") {
+					fmt.Println("Reading Configuration")
+					commandCenter.Configured = true
+				}
+				if commandCenter.Configured && procIDCalled == commandCenter.ProcID {
+					for _, command := range commands {
+						// Send Commands to API
+						if action == "api" {
+							go commandCenter.APICommand(commandCenter.ProcID, command.Hubid, command.URL)
+						}
+						if action == "lutron" {
+							go commandCenter.LutronCommand(command.URL)
+						}
 					}
 				}
 			}

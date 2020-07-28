@@ -69,7 +69,6 @@ type commandStruct struct {
 	Hubid     string `json:"hubid"`
 	VendorTag string `json:"vendortag"`
 }
-
 type hacmd struct {
 	ProcID      string
 	Configured  bool
@@ -101,7 +100,6 @@ func New(configStr string) hacmd {
 	cmdProc := hacmd{procID, false, ch1, mqttClient}
 	return cmdProc
 }
-
 func (cmdProc hacmd) ReadCommands(cmdStr string) (procid string, action string, ActionType string, commands []commandStruct) {
 	res := confighacmd{}
 	err := json.Unmarshal([]byte(cmdStr), &res)
