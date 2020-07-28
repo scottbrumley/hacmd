@@ -29,7 +29,7 @@ func main() {
 		case msgStr := <-commandCenter.CmdMessages:
 			if json.Valid([]byte(msgStr)) {
 				procIDCalled, action, actiontype, commands := commandCenter.ReadCommands(msgStr)
-
+				fmt.Println("ProcID: " + commandCenter.ProcID)
 				if (procIDCalled == commandCenter.ProcID) && (actiontype == "config") {
 					fmt.Println("Reading Configuration")
 					commandCenter.Configured = true
