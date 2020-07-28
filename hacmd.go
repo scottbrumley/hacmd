@@ -16,20 +16,19 @@ func main() {
 	if len(os.Args[1:]) > 0 {
 		// Is there a first argument
 		if os.Args[1] != "" {
-			fmt.Println("Arg[1]: " + os.Args[1])
 			configStr = os.Args[1]
 		}
 	}
 
 	fmt.Println(configStr)
 	commandCenter := hacmd.New(configStr)
+	fmt.Println("ProcID: " + commandCenter.ProcID)
 
 	for {
 		select {
 		case msgStr := <-commandCenter.CmdMessages:
 			if json.Valid([]byte(msgStr)) {
 				procIDCalled, action, actiontype, commands := commandCenter.ReadCommands(msgStr)
-				fmt.Println("ProcID: " + commandCenter.ProcID)
 				if (procIDCalled == commandCenter.ProcID) && (actiontype == "config") {
 					fmt.Println("Reading Configuration")
 					commandCenter.Configured = true
