@@ -20,7 +20,6 @@ func main() {
 		}
 	}
 
-	fmt.Println(configStr)
 	commandCenter := hacmd.New(configStr)
 	fmt.Println("ProcID: " + commandCenter.ProcID)
 
